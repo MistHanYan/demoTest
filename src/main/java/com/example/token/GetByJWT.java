@@ -1,5 +1,6 @@
 package com.example.token;
 
+import com.example.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -53,5 +54,20 @@ public class GetByJWT {
         } catch (Exception ex){
             return false;
         }
+    }
+
+    public User extractUser(String token) {
+        Claims claims = extractSubject(token);
+
+        // 从Claims中获取id和name字段的值
+        int id = claims.get("id", Integer.class);
+        String name = claims.get("name", String.class);
+
+        // 创建User对象并设置id和name
+        User user = new User();
+        user.setId(id);
+        user.setUser_name(name);
+
+        return user;
     }
 }
