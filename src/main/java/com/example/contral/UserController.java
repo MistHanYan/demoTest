@@ -9,7 +9,7 @@ import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-public class Android {
+public class UserController {
     @Resource
     AndroidService androidService;
 
