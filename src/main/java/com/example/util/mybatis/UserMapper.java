@@ -4,7 +4,6 @@ import com.example.entity.User;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 
 @Mapper
@@ -14,9 +13,12 @@ public interface UserMapper {
     @Select("select * from study_test")
     List<User> userList();
 
+    @Select("SELECT * FROM study_test WHERE name = #{name}")
+    User getUserByName(String name);
+
     // Seek passwd by id of user
     @Select("SELECT * FROM study_test WHERE id = #{id}")
-    String getPasswdById(int id);
+    User getUserById(int id);
 
     // Delete user by id
     @Delete("delete from study_test where id = #{id}")
@@ -24,13 +26,13 @@ public interface UserMapper {
 
     // Update name by id
     @Update("UPDATE study_test SET name = #{name} WHERE #{id}")
-    void updateNameById(int id, String name);
+    int updateNameById(int id, String name);
 
     // Update passwd by id
     @Update("UPDATE study_test SET passwd = #{passwd} WHERE #{id}")
-    void updatePassWdById(int id, String passwd);
+    int updatePassWdById(int id, String passwd);
 
     // Insert into user
     @Insert("INSERT INTO study_test (name,passwd) values (#{name},#{passwd})")
-    void insertUser(String name, String passwd);
+    int insertUser(String name, String passwd);
 }

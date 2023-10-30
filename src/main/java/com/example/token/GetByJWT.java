@@ -1,6 +1,5 @@
 package com.example.token;
 
-import com.example.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -9,12 +8,11 @@ import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 @Component
 @Service
-public class getByJWT {
+public class GetByJWT {
 
     private static final String SECRET_KEY = "Mist"; // 用于签名的密钥，请根据实际需求进行修改
 
@@ -24,7 +22,6 @@ public class getByJWT {
 
         SecretKey key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
         // 添加自定义的声明（可选）
-        // claims.put("key", value);
 
         return Jwts.builder()
                 .setClaims(claims)
@@ -42,5 +39,19 @@ public class getByJWT {
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
+    }
+
+    public boolean checkJwtTimed(String token){
+        SecretKey key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
+        try {
+            Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+            return true;
+        } catch (Exception ex){
+            return false;
+        }
     }
 }

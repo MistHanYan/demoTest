@@ -7,13 +7,15 @@ import java.util.List;
 public interface AndroidService {
     List<User> getUser();
 
-    int deleteUserById(int id , String passwd);
+    int deleteUserById(User user);
 
-    int updatePasswdOfUser(int id ,String passwd);
+    int updatePasswdOfUser(User user);
 
-    void SignIn(String name ,String passwd);
+    int SignIn(User user);
 
-    int updateNameOfUser(int id, String name);
+    int updateNameOfUser(User user);
 
-    User logIn(String name, String passwd);
+    String logIn(User user);
+
+    User getUserById(User user);
 }

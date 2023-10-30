@@ -2,16 +2,17 @@ package com.example.service.impl;
 
 import com.example.entity.User;
 import com.example.service.AndroidService;
+import com.example.token.GetByJWT;
+import com.example.util.encrypt.GetEncryptPasswd;
 import com.example.util.mybatis.UserMapper;
 import jakarta.annotation.Resource;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.HashMap;
 import java.util.List;
-
 @Service
 public class AndroidServiceImpl implements AndroidService {
     @Resource
@@ -24,37 +25,58 @@ public class AndroidServiceImpl implements AndroidService {
     }
 
     @Override
-    public int deleteUserById(int id , String passwd) {
-        if(BCrypt.checkpw(passwd,userMapper.getPasswdById(id))){
-            logger.info("Delete to user of id:{}",id);
-            return userMapper.deleteUserById(id);
+    public int deleteUserById(User user) {
+        if(new GetEncryptPasswd().checkPasswd(
+                user.getPass_wd(),
+                userMapper.getUserById(user.getId()).getPass_wd())){
+            logger.info("Delete to user of id:{}",user.getId());
+            return userMapper.deleteUserById(user.getId());
         }else {
-            return 0;
+            return -1;
         }
     }
 
     @Override
-    public int updatePasswdOfUser(int id, String passwd) {
-        if(BCrypt.checkpw(passwd,userMapper.getPasswdById(id))){
-            logger.info("Delete to user of id:{}",id);
-            return userMapper.updatePassWdById(id,pa);
+    public int updatePasswdOfUser(User user) {
+        if(new GetEncryptPasswd().checkPasswd(
+                user.getPass_wd(),
+                userMapper.getUserById(user.getId()).getPass_wd())){
+            logger.info("Delete to user of id:{}",user.getId());
+            return userMapper.updatePassWdById(user.getId(),
+                    new GetEncryptPasswd().toEncrypt(user.getPass_wd()));
         }else {
-            return 0;
+            return -1;
         }
     }
 
     @Override
-    public void SignIn(String name, String passwd) {
-
+    public int SignIn(User user) {
+        return userMapper.getUserByName(user.getUser_name()) == null
+        ?userMapper.insertUser(
+                user.getUser_name(),new GetEncryptPasswd().toEncrypt(user.getPass_wd()))
+        :-1;
     }
 
     @Override
-    public int updateNameOfUser(int id, String name) {
-        return 0;
+    public int updateNameOfUser(User user) {
+        return userMapper.updateNameById(user.getId(),user.getUser_name());
     }
 
     @Override
-    public User logIn(String name, String passwd) {
-        return null;
+    public String logIn(User user) {
+        if(new GetEncryptPasswd()
+                .checkPasswd(user.getPass_wd(),
+                userMapper.getUserByName(user.getUser_name())
+                        .getPass_wd())){
+            HashMap<String, Object> userToJwt = new HashMap<>();
+            userToJwt.put("id",user.getId());
+            userToJwt.put("name",user.getUser_name());
+            return new GetByJWT().generateToken(userToJwt);
+        }return null;
+    }
+
+    @Override
+    public User getUserById(User user) {
+        return userMapper.getUserById(user.getId());
     }
 }
