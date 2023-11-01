@@ -13,8 +13,8 @@ public interface UserMapper {
     @Select("select * from study_test")
     List<User> userList();
 
-    @Select("SELECT * FROM study_test WHERE name = #{name}")
-    User getUserByName(String name);
+    @Select("SELECT * FROM study_test WHERE user_name = #{user_name}")
+    User getUserByName(String user_name);
 
     // Seek passwd by id of user
     @Select("SELECT * FROM study_test WHERE id = #{id}")
@@ -25,14 +25,14 @@ public interface UserMapper {
     int deleteUserById(int id);
 
     // Update name by id
-    @Update("UPDATE study_test SET name = #{name} WHERE #{id}")
-    int updateNameById(int id, String name);
+    @Update("UPDATE study_test SET user_name = #{user_name} WHERE id = #{id}")
+    int updateNameById(String user_name,int id);
 
     // Update passwd by id
-    @Update("UPDATE study_test SET passwd = #{passwd} WHERE #{id}")
-    int updatePassWdById(int id, String passwd);
+    @Update("UPDATE study_test SET pass_wd = #{pass_wd} WHERE id = #{id}")
+    int updatePassWdById(int id, String pass_wd);
 
     // Insert into user
-    @Insert("INSERT INTO study_test (name,passwd) values (#{name},#{passwd})")
-    int insertUser(String name, String passwd);
+    @Insert("INSERT INTO study_test (user_name,pass_wd) values (#{user_name},#{pass_wd})")
+    int insertUser(String user_name, String pass_wd);
 }

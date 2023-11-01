@@ -15,7 +15,7 @@ import java.util.Map;
 @Service
 public class GetByJWT {
 
-    private static final String SECRET_KEY = "Mist"; // 用于签名的密钥，请根据实际需求进行修改
+    private static final String SECRET_KEY = "MistIsZhangYang1MistIsZhangYang1"; // 用于签名的密钥，请根据实际需求进行修改
 
     public String generateToken(Map<String,Object> claims) {
         Date now = new Date();
@@ -59,15 +59,10 @@ public class GetByJWT {
     public User extractUser(String token) {
         Claims claims = extractSubject(token);
 
-        // 从Claims中获取id和name字段的值
-        int id = claims.get("id", Integer.class);
-        String name = claims.get("name", String.class);
-
         // 创建User对象并设置id和name
         User user = new User();
-        user.setId(id);
-        user.setUser_name(name);
-
+        user.setId((int) claims.get("id"));
+        user.setUser_name((String) claims.get("user_name"));
         return user;
     }
 }

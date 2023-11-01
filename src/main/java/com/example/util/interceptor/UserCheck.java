@@ -15,7 +15,8 @@ public class UserCheck implements HandlerInterceptor {
         // 在处理请求之前执行的操作
 
         if(request.getRequestURI().contains("SignIn")
-                || request.getRequestURI().contains("LogIn")){
+                || request.getRequestURI().contains("LogIn")
+                || request.getRequestURI().contains("test")){
             return true;
         }else {
             if(request.getHeader("token") != null){

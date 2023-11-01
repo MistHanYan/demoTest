@@ -7,15 +7,15 @@ import java.util.List;
 public interface AndroidService {
     List<User> getUser();
 
-    int deleteUserById(User user);
+    int deleteUserById(int id, User user) throws Exception;
 
-    int updatePasswdOfUser(User user);
+    int updatePasswdOfUser(User user,String inputPasswd) throws Exception;
 
-    int SignIn(User user);
+    int SignIn(User user) throws Exception;
 
-    int updateNameOfUser(User user);
+    int updateNameOfUser(int id , String newName);
 
-    String logIn(User user);
+    boolean logIn(User user) throws Exception;
 
     User getUserById(User user);
 }

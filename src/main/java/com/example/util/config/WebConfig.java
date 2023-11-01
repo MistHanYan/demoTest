@@ -1,5 +1,6 @@
-package com.example.util.interceptor;
+package com.example.util.config;
 
+import com.example.util.interceptor.UserCheck;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -16,8 +17,8 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(userCheck).addPathPatterns(
-                "/**");
+        registry.addInterceptor(userCheck)
+                .addPathPatterns("/**");
     }
 }
 
