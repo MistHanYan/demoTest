@@ -1,4 +1,4 @@
-package com.example.util.config;
+package com.example.util.tools;
 
 import org.springframework.stereotype.Service;
 

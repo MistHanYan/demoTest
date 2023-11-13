@@ -1,8 +1,7 @@
 package com.example.util.config;
 
+import com.example.util.tools.EncryptionUtils;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class EncryptionUtilsTest {
 
